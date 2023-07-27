@@ -16,11 +16,11 @@ class FilterModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['make'] = this.make;
-    data['condition'] = this.condition;
-    data['storage'] = this.storage;
-    data['ram'] = this.ram;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['make'] = make;
+    data['condition'] = condition;
+    data['storage'] = storage;
+    data['ram'] = ram;
     return data;
   }
 }

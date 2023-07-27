@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mobilicis/Components/Headings.dart';
+import 'package:mobilicis/Components/headings_component.dart';
 import 'package:mobilicis/Logic/Cubits/Search_cubit/search_cubit.dart';
 import 'package:mobilicis/Logic/Cubits/Search_cubit/search_state.dart';
 
 
 class SearchScreen extends StatefulWidget {
-   SearchScreen({Key? key}) : super(key: key);
+   const SearchScreen({Key? key}) : super(key: key);
   static const String routeName = "./Search";
 
   @override
@@ -16,7 +16,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   SearchCubit searchCubit = SearchCubit();
 
   @override
@@ -34,7 +34,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0XFF2C2F45),
+        backgroundColor: const Color(0XFF2C2F45),
         leading: Icon(
           Icons.menu,
           size: 40.sp,
@@ -70,17 +70,17 @@ class _SearchScreenState extends State<SearchScreen> {
                   weight: 20,
                   size: 40.sp,
                 ),
-                Positioned(
+                const Positioned(
                   right: 0,
                   top: 3,
                   child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    minRadius: 8,
+                    maxRadius: 8,
                     child: Text(
                       "3",
                       style: TextStyle(fontSize: 10),
                     ),
-                    backgroundColor: Colors.white,
-                    minRadius: 8,
-                    maxRadius: 8,
                   ),
                 ),
               ],
@@ -94,7 +94,7 @@ class _SearchScreenState extends State<SearchScreen> {
           children: [
             Container(
               padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
-              color: Color(0XFF2C2F45),
+              color: const Color(0XFF2C2F45),
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.grey.shade100,
@@ -110,7 +110,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         FocusScope.of(context).unfocus();
 
                       },
-                      child: Icon(
+                      child: const Icon(
                         Icons.clear_rounded,
                         color: Colors.grey,
                       ),),
@@ -136,7 +136,7 @@ class _SearchScreenState extends State<SearchScreen> {
             BlocBuilder<SearchCubit, SearchState>(
               builder: (context, state) {
                 if (state is SearchLoadingState) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
@@ -150,17 +150,17 @@ class _SearchScreenState extends State<SearchScreen> {
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 10.h),
                         child: SingleChildScrollView(
-                          physics: BouncingScrollPhysics(),
+                          physics: const BouncingScrollPhysics(),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Heading(text: "Brand"),
+                              heading(text: "Brand"),
                               SizedBox(
                                 height: 15.h,
                               ),
                               ListView.builder(
                                 shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 itemCount: makesList?.length ?? 0,
                                 itemBuilder: (context, index) {
                                   return Padding(
@@ -172,13 +172,13 @@ class _SearchScreenState extends State<SearchScreen> {
                               SizedBox(
                                 height: 25.h,
                               ),
-                              Heading(text: "Models"),
+                              heading(text: "Models"),
                               SizedBox(
                                 height: 15.h,
                               ),
                               ListView.builder(
                                 shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 itemCount: modelsList?.length ?? 0,
                                 itemBuilder: (context, index) {
                                   return Padding(
@@ -208,20 +208,20 @@ class _SearchScreenState extends State<SearchScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Heading(text: "Brand"),
+                          heading(text: "Brand"),
                           SizedBox(
                             height: 15.h,
                           ),
                           SizedBox(
                             height: 25.h,
                           ),
-                          Heading(text: "Models"),
+                          heading(text: "Models"),
                         ],
                       ),
                     ),
                   ));
                 }
-                return Text("Here is an Error!");
+                return const Text("Here is an Error!");
               },
             )
 

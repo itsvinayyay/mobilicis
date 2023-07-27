@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobilicis/Data/Models/Post_Model.dart';
-import 'package:mobilicis/Data/Models/Search_Model.dart';
 import 'package:mobilicis/Data/Repositories/Post_repository.dart';
 import 'package:mobilicis/Logic/Cubits/Post_Cubit/post_state.dart';
 

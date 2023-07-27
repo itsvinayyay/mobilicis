@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "425766178197",
+    "project_id": "mobilicis-ab767",
+    "storage_bucket": "mobilicis-ab767.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:425766178197:android:744ac0e218f90e369fba9c",
+        "android_client_info": {
+          "package_name": "com.example.mobilicis"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "425766178197-sii8u2a09m2s164u988hk71ajqjnasqh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNIniK4gBQxOnlcHcHJ1elFwpocdHB3us"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "425766178197-sii8u2a09m2s164u988hk71ajqjnasqh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

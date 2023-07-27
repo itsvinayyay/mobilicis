@@ -2,22 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mobilicis/Components/Headings.dart';
-import 'package:mobilicis/Logic/Cubits/Post_Cubit/post_cubit.dart';
-import 'package:mobilicis/Logic/Cubits/Post_Cubit/post_state.dart';
 import 'package:mobilicis/Logic/Cubits/Search_cubit/search_cubit.dart';
-import 'package:mobilicis/Screens/Home_Screen.dart';
+import 'package:mobilicis/Screens/Notification_Screen.dart';
 import 'package:mobilicis/Screens/Search_Screen.dart';
 
-class HomeScreen_Layout extends StatefulWidget {
-  HomeScreen_Layout({Key? key, required this.child}) : super(key: key);
+class HomeScreenLayout extends StatefulWidget {
+  const HomeScreenLayout({Key? key, required this.child}) : super(key: key);
   final Widget child;
 
   @override
-  State<HomeScreen_Layout> createState() => _HomeScreen_LayoutState();
+  State<HomeScreenLayout> createState() => _HomeScreenLayoutState();
 }
 
-class _HomeScreen_LayoutState extends State<HomeScreen_Layout> {
+class _HomeScreenLayoutState extends State<HomeScreenLayout> {
   // bool isFieldtapped = false;
   // TextEditingController _searchController = TextEditingController();
   // PostCubit postCubit = PostCubit();
@@ -45,10 +42,15 @@ class _HomeScreen_LayoutState extends State<HomeScreen_Layout> {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
-        backgroundColor: Color(0XFF2C2F45),
-        leading: Icon(
-          Icons.menu,
-          size: 40.sp,
+        backgroundColor: const Color(0XFF2C2F45),
+        leading: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 0.h),
+          child: SvgPicture.asset(
+            "assets/icons/menu2.svg",
+            // color: Colors.white,
+            width: 40.w,
+            height: 50.h,
+          ),
         ),
         title: SvgPicture.asset(
           "assets/icons/logo.svg",
@@ -72,29 +74,34 @@ class _HomeScreen_LayoutState extends State<HomeScreen_Layout> {
               ),
             ],
           ),
-          Padding(
-            padding: EdgeInsets.only(top: 8.h, right: 10.w),
-            child: Stack(
-              children: [
-                Icon(
-                  Icons.notifications_none_sharp,
-                  weight: 20,
-                  size: 40.sp,
-                ),
-                Positioned(
-                  right: 0,
-                  top: 3,
-                  child: CircleAvatar(
-                    child: Text(
-                      "3",
-                      style: TextStyle(fontSize: 10),
-                    ),
-                    backgroundColor: Colors.white,
-                    minRadius: 8,
-                    maxRadius: 8,
+          GestureDetector(
+            onTap: (){
+              Navigator.pushNamed(context, NotificationScreen.routeName);
+            },
+            child: Padding(
+              padding: EdgeInsets.only(top: 8.h, right: 10.w),
+              child: Stack(
+                children: [
+                  Icon(
+                    Icons.notifications_none_sharp,
+                    weight: 20,
+                    size: 40.sp,
                   ),
-                ),
-              ],
+                  const Positioned(
+                    right: 0,
+                    top: 3,
+                    child: CircleAvatar(
+                      backgroundColor: Colors.white,
+                      minRadius: 8,
+                      maxRadius: 8,
+                      child: Text(
+                        "3",
+                        style: TextStyle(fontSize: 10),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -106,7 +113,7 @@ class _HomeScreen_LayoutState extends State<HomeScreen_Layout> {
               width: MediaQuery.of(context).size.width,
               height: 60.h,
               padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
-              color: Color(0XFF2C2F45),
+              color: const Color(0XFF2C2F45),
               child: GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -114,7 +121,7 @@ class _HomeScreen_LayoutState extends State<HomeScreen_Layout> {
                     MaterialPageRoute(
                       builder: (context) => BlocProvider.value(
                         value: SearchCubit(),
-                        child: SearchScreen(),
+                        child: const SearchScreen(),
                       ),
                     ),
                   );

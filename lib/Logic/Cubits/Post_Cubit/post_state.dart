@@ -1,5 +1,4 @@
 import 'package:mobilicis/Data/Models/Post_Model.dart';
-import 'package:mobilicis/Data/Models/Search_Model.dart';
 
 abstract class PostState {}
 

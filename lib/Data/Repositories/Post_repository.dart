@@ -1,25 +1,24 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:mobilicis/Data/Models/Post_Model.dart';
 import 'package:mobilicis/Data/Models/Search_Model.dart';
 import 'package:mobilicis/Data/Repositories/api/api.dart';
 
 class PostRepository {
-
   API api = API();
+
   Future<List<PostModel>> fetchPosts() async {
-    try{
-      Response response = await api.sendRequest.get("/getListings?page=2&limit=10%27");
+    try {
+      Response response =
+          await api.sendRequest.get("/getListings?page=2&limit=10%27");
       List<dynamic> postMaps = response.data["listings"];
       return postMaps.map((postMap) => PostModel.fromJson(postMap)).toList();
-    } catch(ex){
-      throw ex;
+    } catch (ex) {
+      rethrow;
     }
   }
 
   Future<Map<String, List<dynamic>>> searchDevices(String searchModel) async {
-    try{
+    try {
       final requestBody = SearchModel(searchModel: searchModel);
       Response response = await api.sendRequest
           .post("/searchModel", data: requestBody.toJson());
@@ -28,7 +27,8 @@ class PostRepository {
       Map<String, dynamic> responseData = response.data;
 
       // Check if the 'makes' and 'models' keys exist in the responseData
-      if (responseData.containsKey('makes') && responseData.containsKey('models')) {
+      if (responseData.containsKey('makes') &&
+          responseData.containsKey('models')) {
         List<dynamic> makesList = responseData['makes'];
         List<dynamic> modelsList = responseData['models'];
 
@@ -50,46 +50,41 @@ class PostRepository {
         // }
 
         return searchResults;
-
       } else {
         // Handle the case when the 'makes' and 'models' keys are not found in the response
-        throw Exception("Invalid API response: 'makes' and 'models' keys not found");
+        throw Exception(
+            "Invalid API response: 'makes' and 'models' keys not found");
       }
-
-    } catch(ex){
-      throw ex;
+    } catch (ex) {
+      rethrow;
     }
   }
-  
-  
-  Future<Map<String, List<dynamic>>>  getFilters() async{
-    
-    try{
-      Response response = await api.sendRequest.get("/getFilters?isLimited=true");
+
+  Future<Map<String, List<dynamic>>> getFilters() async {
+    try {
+      Response response =
+          await api.sendRequest.get("/getFilters?isLimited=true");
       Map<String, dynamic> responseData = response.data["filters"];
 
-        List<dynamic> makeList = responseData["make"];
-        List<dynamic> makecondition = responseData["condition"];
-        List<dynamic> makeStorage = responseData["storage"];
-        List<dynamic> makeRam = responseData["ram"];
+      List<dynamic> makeList = responseData["make"];
+      makeList.insert(0, "All");
+      List<dynamic> makecondition = responseData["condition"];
+      makecondition.insert(0, "All");
+      List<dynamic> makeStorage = responseData["storage"];
+      makeStorage.insert(0, "All");
+      List<dynamic> makeRam = responseData["ram"];
+      makeRam.insert(0, "All");
 
+      Map<String, List<dynamic>> filterResults = {
+        "make": makeList,
+        "condition": makecondition,
+        "storage": makeStorage,
+        "ram": makeRam,
+      };
 
-        Map<String, List<dynamic>> filterResults = {
-          "make" : makeList,
-          "condition" : makecondition,
-          "storage" : makeStorage,
-          "ram" : makeRam,
-        };
-
-
-        return filterResults;
-
-    } catch (ex){
-      throw ex;
+      return filterResults;
+    } catch (ex) {
+      rethrow;
     }
-    
   }
-
-
-
 }

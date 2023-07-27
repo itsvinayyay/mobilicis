@@ -15,8 +15,8 @@ class SearchModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['searchModel'] = this.searchModel;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['searchModel'] = searchModel;
     return data;
   }
 }

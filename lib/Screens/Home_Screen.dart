@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mobilicis/Components/Custom_Button.dart';
-import 'package:mobilicis/Components/Headings.dart';
-import 'package:mobilicis/Components/HomeScreen_Banner.dart';
+import 'package:mobilicis/Components/custom_button.dart';
+import 'package:mobilicis/Components/headings_component.dart';
+import 'package:mobilicis/Components/homescreen_banner.dart';
 import 'package:mobilicis/Components/HomeScreen_BottomSheet.dart';
 import 'package:mobilicis/Layouts/HomeScreen_Layout.dart';
 import 'package:mobilicis/Components/HomeScreen_DealCard.dart';
@@ -12,9 +12,11 @@ import 'package:mobilicis/Logic/Cubits/Filter_Cubit/filter_cubit.dart';
 import 'package:mobilicis/Logic/Cubits/Filter_Cubit/filter_state.dart';
 import 'package:mobilicis/Logic/Cubits/Post_Cubit/post_cubit.dart';
 import 'package:mobilicis/Logic/Cubits/Post_Cubit/post_state.dart';
+import 'package:mobilicis/Logic/Notifications/notification_services.dart';
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);
   static const String routeName = "./Home";
 
   @override
@@ -24,21 +26,48 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   PostCubit postCubit = PostCubit();
   bool _isModalVisible = false;
+  NotificationServices notificationServices = NotificationServices();
+
+
+  late Image image1;
+  late Image image2;
+  late Image image3;
+  late Image image4;
+
+  String formatPrice(String price) {
+    final numberFormat = NumberFormat("#,##,###");
+    int parsedPrice = int.tryParse(price) ?? 0;
+    return numberFormat.format(parsedPrice);
+  }
 
   @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   print("InitState Called !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-  //   postCubit.refreshposts();
-  // }
-  //
-  // @override
-  // void didUpdateWidget(covariant HomeScreen oldWidget) {
-  //   // TODO: implement didUpdateWidget
-  //   super.didUpdateWidget(oldWidget);
-  //   postCubit.refreshposts();
-  // }
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    notificationServices.requestNotificationPermission();
+    // notificationServices.isTokenRefresh();
+    notificationServices.firebaseInit(context);
+    notificationServices.setupInteractMessage(context);
+    notificationServices.getDeviceToken().then((value) {
+      //Can print Device Token here for Production only!
+    });
+
+    image1 = Image.network("https://cdn.freebiesupply.com/images/thumbs/2x/apple-logo.png");
+    image2 = Image.network("https://image-us.samsung.com/SamsungUS/home/samsung-logo-191-1.jpg");
+    image3 = Image.network("https://www.freepnglogos.com/uploads/xiaomi-png/xiaomi-logo-logos-marcas-8.png");
+    image4 = Image.network("https://cdn.iconscout.com/icon/free/png-256/free-vivo-1-285323.png");
+  }
+
+  @override
+  void didUpdateWidget(covariant HomeScreen oldWidget) {
+    // TODO: implement didUpdateWidget
+    precacheImage(image1.image, context);
+    precacheImage(image2.image, context);
+    precacheImage(image3.image, context);
+    precacheImage(image4.image, context);
+    super.didUpdateWidget(oldWidget);
+
+  }
 
   void _showModalBottomSheet() async {
     setState(() {
@@ -53,8 +82,6 @@ class _HomeScreenState extends State<HomeScreen> {
       isScrollControlled: true,
       // isScrollControlled: true,
       builder: (BuildContext context) {
-        double height = MediaQuery.of(context).size.height;
-        double width = MediaQuery.of(context).size.width;
         return SizedBox(
             height: 680.h,
             child: Stack(children: [
@@ -66,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                   child: Container(
                       width: double.infinity,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(30.0)),
@@ -104,44 +131,44 @@ class _HomeScreenState extends State<HomeScreen> {
                             BlocBuilder<FilterCubit, FilterState>(
                                 builder: (context, state) {
                               if (state is FilterLoadingState) {
-                                return Center(
+                                return const Center(
                                   child: CircularProgressIndicator(),
                                 );
                               } else if (state is FilterLoadedState) {
                                 return Expanded(
                                   child: SingleChildScrollView(
-                                    physics: BouncingScrollPhysics(),
+                                    physics: const BouncingScrollPhysics(),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Sheet_Heading(text: "Brand"),
+                                        sheetHeading(text: "Brand"),
                                         SizedBox(
                                           height: 15.h,
                                         ),
-                                        Filter_Scroll(state.filters["make"]),
+                                        filterScroll(state.filters["make"], context),
                                         SizedBox(
                                           height: 25.h,
                                         ),
-                                        Sheet_Heading(text: "Ram"),
+                                        sheetHeading(text: "Ram"),
                                         SizedBox(
                                           height: 15.h,
                                         ),
-                                        Filter_Scroll(state.filters["ram"]),
+                                        filterScroll(state.filters["ram"], context),
                                         SizedBox(
                                           height: 25.h,
                                         ),
-                                        Sheet_Heading(text: "Storage"),
+                                        sheetHeading(text: "Storage"),
                                         SizedBox(
                                           height: 15.h,
                                         ),
-                                        Filter_Scroll(state.filters["storage"]),
+                                        filterScroll(state.filters["storage"], context),
                                         SizedBox(
                                           height: 25.h,
                                         ),
                                         Row(
                                           children: [
-                                            Sheet_Heading(text: "Conditions"),
+                                            sheetHeading(text: "Conditions"),
                                             SizedBox(
                                               width: 5.w,
                                             ),
@@ -152,14 +179,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                         SizedBox(
                                           height: 15.h,
                                         ),
-                                        Filter_Scroll(
-                                            state.filters["condition"]),
+                                        filterScroll(
+                                            state.filters["condition"], context),
                                         SizedBox(
                                           height: 25.h,
                                         ),
                                         Row(
                                           children: [
-                                            Sheet_Heading(text: "Warranty"),
+                                            sheetHeading(text: "Warranty"),
                                             SizedBox(
                                               width: 5.w,
                                             ),
@@ -170,13 +197,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                         SizedBox(
                                           height: 15.h,
                                         ),
-                                        Filter_Scroll(demoMaps["warranty"]),
+                                        filterScroll(demoMaps["warranty"], context),
                                         SizedBox(
                                           height: 25.h,
                                         ),
                                         Row(
                                           children: [
-                                            Sheet_Heading(text: "Verification"),
+                                            sheetHeading(text: "Verification"),
                                             SizedBox(
                                               width: 5.w,
                                             ),
@@ -187,11 +214,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                         SizedBox(
                                           height: 15.h,
                                         ),
-                                        Filter_Scroll(demoMaps["verification"]),
+                                        filterScroll(demoMaps["verification"], context),
                                         SizedBox(
                                           height: 25.h,
                                         ),
-                                        Sheet_Heading(text: "Price"),
+                                        sheetHeading(text: "Price"),
                                         SizedBox(
                                           height: 10.h,
                                         ),
@@ -224,7 +251,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               5)),
                                                   height: 25.h,
                                                   width: 90.w,
-                                                  child: Text(
+                                                  child: const Text(
                                                     "0",
                                                     style: TextStyle(
                                                         color: Colors.black),
@@ -257,7 +284,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               5)),
                                                   height: 25.h,
                                                   width: 90.w,
-                                                  child: Text(
+                                                  child: const Text(
                                                     "400000",
                                                     style: TextStyle(
                                                         color: Colors.black),
@@ -279,7 +306,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     horizontal: 28.w),
                                                 child: Divider(
                                                   thickness: 8.sp,
-                                                  color: Color(0XFF2C2F45),
+                                                  color: const Color(0XFF2C2F45),
                                                 ),
                                               ),
                                               Positioned(
@@ -287,7 +314,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 bottom: 0,
                                                   child: CircleAvatar(
                                                 backgroundColor:
-                                                    Color(0XFF2C2F45),
+                                                    const Color(0XFF2C2F45),
                                                 minRadius: 10.sp,
                                                 maxRadius: 10.sp,
                                               )),
@@ -296,7 +323,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   bottom: 0,
                                                   child: CircleAvatar(
                                                     backgroundColor:
-                                                    Color(0XFF2C2F45),
+                                                    const Color(0XFF2C2F45),
                                                     minRadius: 10.sp,
                                                     maxRadius: 10.sp,
                                                   ))
@@ -304,13 +331,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ),
                                         SizedBox(height: 2.h,),
-                                        CustomButton("Accept", MediaQuery.sizeOf(context).width, () { }),
+                                        customButton("Accept", MediaQuery.sizeOf(context).width, () { }),
                                       ],
                                     ),
                                   ),
                                 );
                               }
-                              return Text("An Error is there!");
+                              return const Text("An Error is there!");
                             })
                           ],
                         ),
@@ -341,45 +368,11 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  SizedBox Filter_Scroll(List<dynamic>? received_list) {
-    return SizedBox(
-      height: 40.h,
-      width: MediaQuery.sizeOf(context).width,
-      child: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            ...List.generate(
-              received_list?.length ?? 0,
-              (index) => Padding(
-                padding: EdgeInsets.only(right: 10.w),
-                child: Container(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 3.h, horizontal: 25.w),
-                  height: 30.h,
-                  decoration: BoxDecoration(
-                    color: index == 0 ? Colors.grey.shade300 : Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.grey.shade400, width: 1),
-                  ),
-                  child: Center(
-                      child: Text(
-                    received_list?[index] ?? "",
-                    style: TextStyle(color: Colors.grey.shade600),
-                  )),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
+
 
   @override
   Widget build(BuildContext context) {
-    return HomeScreen_Layout(
+    return HomeScreenLayout(
         child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -393,7 +386,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Heading(text: "Buy Top Brands"),
+              heading(text: "Buy Top Brands"),
               SizedBox(
                 height: 10.h,
               ),
@@ -409,8 +402,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     height: 70.h,
                     width: 75.w,
-                    child: Image.network(
-                        "https://cdn.freebiesupply.com/images/thumbs/2x/apple-logo.png"),
+                    child: image1,
                   ),
                   Container(
                     padding:
@@ -421,8 +413,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     height: 70.h,
                     width: 75.w,
-                    child: Image.network(
-                        "https://image-us.samsung.com/SamsungUS/home/samsung-logo-191-1.jpg"),
+                    child: image2,
                   ),
                   Container(
                     padding:
@@ -433,8 +424,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     height: 70.h,
                     width: 75.w,
-                    child: Image.network(
-                        "https://www.freepnglogos.com/uploads/xiaomi-png/xiaomi-logo-logos-marcas-8.png"),
+                    child: image3,
                   ),
                   Container(
                     padding:
@@ -445,8 +435,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     height: 70.h,
                     width: 75.w,
-                    child: Image.network(
-                        "https://cdn.iconscout.com/icon/free/png-256/free-vivo-1-285323.png"),
+                    child: image4,
+
                   ),
                 ],
               ),
@@ -456,7 +446,7 @@ class _HomeScreenState extends State<HomeScreen> {
         SizedBox(
           height: 10.h,
         ),
-        HomeScreenBanner(),
+        const HomeScreenBanner(),
         SizedBox(
           height: 10.h,
         ),
@@ -467,7 +457,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Heading(text: "Shop By"),
+              heading(text: "Shop By"),
               SizedBox(
                 height: 15.h,
               ),
@@ -604,7 +594,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Row(
                     children: [
-                      Heading(text: "Best Deals Near You"),
+                      heading(text: "Best Deals Near You"),
                       SizedBox(
                         width: 8.w,
                       ),
@@ -659,7 +649,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 builder: (context, state) {
                   if (state is PostLoadingState) {
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(),
                     );
                   }
@@ -668,7 +658,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 580.h,
                       child: GridView.builder(
                           shrinkWrap: false,
-                          physics: BouncingScrollPhysics(),
+                          physics: const BouncingScrollPhysics(),
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
@@ -678,12 +668,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           itemCount: state.posts.length,
                           itemBuilder: (context, index) {
-                            return Deal_Card(
+                            return dealCard(
                                 imagerurl: state
                                         .posts[index].defaultImage?.fullImage ??
                                     "",
-                                mrp: state.posts[index].listingNumPrice
-                                    .toString(),
+                                mrp: formatPrice(state.posts[index].listingNumPrice
+                                    .toString()),
                                 name: state.posts[index].model!,
                                 storage: state.posts[index].deviceStorage!,
                                 condition: state.posts[index].deviceCondition!,
@@ -693,7 +683,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           }),
                     );
                   }
-                  return Center(
+                  return const Center(
                     child: Text("Error!"),
                   );
                 },

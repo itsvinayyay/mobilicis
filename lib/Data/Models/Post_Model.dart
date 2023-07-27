@@ -48,11 +48,11 @@ class PostModel {
     if (json['images'] != null) {
       images = <Images>[];
       json['images'].forEach((v) {
-        images!.add(new Images.fromJson(v));
+        images!.add(Images.fromJson(v));
       });
     }
     defaultImage = json['defaultImage'] != null
-        ? new Images.fromJson(json['defaultImage'])
+        ? Images.fromJson(json['defaultImage'])
         : null;
     listingLocation = json['listingLocation'];
     make = json['make'];
@@ -70,30 +70,30 @@ class PostModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['deviceCondition'] = this.deviceCondition;
-    data['listedBy'] = this.listedBy;
-    data['deviceStorage'] = this.deviceStorage;
-    if (this.images != null) {
-      data['images'] = this.images!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['deviceCondition'] = deviceCondition;
+    data['listedBy'] = listedBy;
+    data['deviceStorage'] = deviceStorage;
+    if (images != null) {
+      data['images'] = images!.map((v) => v.toJson()).toList();
     }
-    if (this.defaultImage != null) {
-      data['defaultImage'] = this.defaultImage!.toJson();
+    if (defaultImage != null) {
+      data['defaultImage'] = defaultImage!.toJson();
     }
-    data['listingLocation'] = this.listingLocation;
-    data['make'] = this.make;
-    data['marketingName'] = this.marketingName;
-    data['mobileNumber'] = this.mobileNumber;
-    data['model'] = this.model;
-    data['verified'] = this.verified;
-    data['status'] = this.status;
-    data['listingDate'] = this.listingDate;
-    data['deviceRam'] = this.deviceRam;
-    data['createdAt'] = this.createdAt;
-    data['listingId'] = this.listingId;
-    data['listingNumPrice'] = this.listingNumPrice;
-    data['listingState'] = this.listingState;
+    data['listingLocation'] = listingLocation;
+    data['make'] = make;
+    data['marketingName'] = marketingName;
+    data['mobileNumber'] = mobileNumber;
+    data['model'] = model;
+    data['verified'] = verified;
+    data['status'] = status;
+    data['listingDate'] = listingDate;
+    data['deviceRam'] = deviceRam;
+    data['createdAt'] = createdAt;
+    data['listingId'] = listingId;
+    data['listingNumPrice'] = listingNumPrice;
+    data['listingState'] = listingState;
     return data;
   }
 }
@@ -108,8 +108,8 @@ class Images {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['fullImage'] = this.fullImage;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['fullImage'] = fullImage;
     return data;
   }
 }

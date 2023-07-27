@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-Container Deal_Card(
+Container dealCard(
     {required String imagerurl,
     required String mrp,
     required String name,
@@ -33,7 +33,22 @@ Container Deal_Card(
                   width: 140.w,
                   height: 100.h,
                   child: Image.network(
-                      imagerurl),
+                      imagerurl, loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) {
+                      // Image is not loading, return the original child widget.
+                      return child;
+                    } else {
+                      // Image is loading, show a circular progress indicator.
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                              (loadingProgress.expectedTotalBytes ?? 100)
+                              : null,
+                        ),
+                      );
+                    }
+                  },),
                 ),
               ),
             ),
@@ -51,7 +66,7 @@ Container Deal_Card(
           height: 10.h,
         ),
         Text(
-          "₹ ${mrp}",
+          "₹ $mrp",
           style: TextStyle(
             fontSize: 18.sp,
             fontWeight: FontWeight.bold,
@@ -80,7 +95,7 @@ Container Deal_Card(
               ),
             ),
             Text(
-              "Condition: ${condition}",
+              "Condition: $condition",
               style: TextStyle(
                 fontSize: 10.sp,
                 fontWeight: FontWeight.w500,
