@@ -42,6 +42,15 @@ The main objectives of this project are:
 11. **Limited Caching:** I was mindful of excessive caching, as it can lead to memory bloat. Cached only essential data and cleared caches when no longer needed.
 
 12. **Static Analysis:** Used the `flutter analyze` command to identify potential issues and follow the recommendations to improve memory efficiency.
+
+## Required Links
+The GitHub link, .apk file link, and also the link to the Screen Recording of the project are attached below:
+
+1. GitHub Link: https://github.com/itsvinayyay/mobilicis
+2. .apk File Link: https://drive.google.com/file/d/1fMrw1VajHhYekIcFpFgNLOBqwgegV5Vn/view?usp=sharing
+3. Screen Recording Link: https://drive.google.com/file/d/1Q9-tjoeu7PwSC54T55nZ6tQEAVnnLv0Y/view?usp=sharing
+4. PDF for the project: https://drive.google.com/file/d/1SdR9OdwpMp5uEHgW9ArzKtgujBkMl7l8/view?usp=sharing
+
 ## Getting Started
 
 ### Prerequisites
