@@ -94,7 +94,7 @@ If you'd like to contribute to this project, please follow the standard guidelin
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under no licence.
 
 Feel free to reach out for any questions or support related to this Flutter internship assignment.
 
