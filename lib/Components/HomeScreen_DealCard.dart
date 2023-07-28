@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -32,23 +33,11 @@ Container dealCard(
                 child: SizedBox(
                   width: 140.w,
                   height: 100.h,
-                  child: Image.network(
-                      imagerurl, loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) {
-                      // Image is not loading, return the original child widget.
-                      return child;
-                    } else {
-                      // Image is loading, show a circular progress indicator.
-                      return Center(
-                        child: CircularProgressIndicator(
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                              (loadingProgress.expectedTotalBytes ?? 100)
-                              : null,
-                        ),
-                      );
-                    }
-                  },),
+                  child: CachedNetworkImage(
+                    imageUrl: imagerurl,
+                    placeholder: (context, url) => const Center(child: CircularProgressIndicator()), // Placeholder while the image is loading
+                    errorWidget: (context, url, error) => const Icon(Icons.error), // Error placeholder if the image fails to load
+                  ),
                 ),
               ),
             ),

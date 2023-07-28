@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -75,15 +76,27 @@ class _HomeScreenBannerState extends State<HomeScreenBanner> {
               the number of items in this list. */
                 SizedBox(
                   width: 360.w,
-                  child: image1,
+                  child: CachedNetworkImage(
+                    imageUrl: "https://www.oruphones.com/_next/image?url=https%3A%2F%2Fd1tl44nezj10jx.cloudfront.net%2Fweb%2Fassets%2Fbanner_4.webp&w=3840&q=75",
+                    placeholder: (context, url) => const Center(child: CircularProgressIndicator()), // Placeholder while the image is loading
+                    errorWidget: (context, url, error) => const Icon(Icons.error), // Error placeholder if the image fails to load
+                  ),
                 ),
                 SizedBox(
                   width: 360.w,
-                  child: image2,
+                  child: CachedNetworkImage(
+                    imageUrl: "https://www.oruphones.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fbanner_web_2.4927cf76.png&w=3840&q=75",
+                    placeholder: (context, url) => const Center(child: CircularProgressIndicator()), // Placeholder while the image is loading
+                    errorWidget: (context, url, error) => const Icon(Icons.error), // Error placeholder if the image fails to load
+                  ),
                 ),
                 SizedBox(
                   width: 360.w,
-                  child: image3,
+                  child: CachedNetworkImage(
+                    imageUrl: "https://www.oruphones.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fbanner_web_3.fa2ffdd8.png&w=3840&q=75",
+                    placeholder: (context, url) => const Center(child: CircularProgressIndicator()), // Placeholder while the image is loading
+                    errorWidget: (context, url, error) => const Icon(Icons.error), // Error placeholder if the image fails to load
+                  ),
                 ),
               ],
             )),
